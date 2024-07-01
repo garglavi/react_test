@@ -1,3 +1,7 @@
+This website is made using ReactJS and Cloud Firestore. User can upload two excel files for company data and contact data.
+On selecting the files, the info will be displayed and upon confirmation all the data will be uploaded to cloud firestore database
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
