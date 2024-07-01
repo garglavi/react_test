@@ -4,9 +4,9 @@ import TableFormat from './TableFormat';
 import { db, collection, doc, writeBatch } from '../Firebase';
 
 
-const FileUploader = () => {
-    const [data, setData] = useState(null);
-    const [output, setOutput]= useState(false);
+const ContactUploader = () => {
+    const [data1, setData1] = useState(null);
+    const [output1, setOutput1]= useState(false);
 
     const handleUpload = (e) => {
         const file = e.target.files[0];
@@ -17,7 +17,7 @@ const FileUploader = () => {
             const sheet = workbook.Sheets[sheetName];
             const sheetData = XLSX.utils.sheet_to_json(sheet);
 
-            setData(sheetData);
+            setData1(sheetData);
         };
 
         reader.readAsBinaryString(file);
@@ -25,39 +25,39 @@ const FileUploader = () => {
 
     const handleCancel = (e) => {
         e.preventDefault();
-        setData(null);
+        setData1(null);
     };
 
     const handleSubmit = async () => {
-        const firestoreDoc = collection(db, 'company');
+        const firestoreDoc = collection(db, 'contact');
     const batch = writeBatch(db);
     
-    data.forEach((company) => {
+    data1.forEach((company) => {
         const docRef = doc(firestoreDoc); 
         batch.set(docRef, company);
     });
     
     await batch.commit();
-    setOutput(true);
+    setOutput1(true);
     console.log("Successfully added companies");
     };
     
 
     return (
         <div>
-            <h3>Select company file:</h3>
+            <h3>Select contact file:</h3>
             <input type='file' onChange={handleUpload} />
-            {data && (
+            {data1 && (
                 <div>
                     <h2>Your data:</h2>
-                    <TableFormat data={data} />
+                    <TableFormat data={data1} />
                     <button type='button' onClick={handleCancel}>Cancel</button>
                     <button type='button' onClick={handleSubmit}>Upload to Database</button>
-                    {output&& <p>"Successfully added companies"</p>}
+                    {output1 && <p>"Successfully added contacts"</p>}
                 </div>
             )}
         </div>
     );
 };
 
-export default FileUploader;
+export default ContactUploader;
